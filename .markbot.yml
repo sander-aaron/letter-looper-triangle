@@ -1,16 +1,23 @@
 repo: "letter-looper-triangle"
-canvasCourse: "467503"
-canvasAssignment: "4202494"
 
 naming: true
-commits: 1
+restrictFileTypes: true
+liveWebsite: true
+
+git:
+  numCommits: 1
+  allCommitted: true
+  allSynced: true
 
 html:
   - path: "index.html"
     valid: true
     bestPractices: true
     has:
-      - "script"
+      - 'script[src="js/main.js"]'
+    hasNot:
+      - ['link', 'CSS isn’t necessary to complete this assignment']
+      - ['body :not(script)', 'The `<script>` tag should be the only tag inside `<body>` — no other HTML is needed']
 
 js:
   - path: "js/main.js"
@@ -20,5 +27,19 @@ js:
       - "var"
       - "prompt"
       - "for"
-      - "(9|10|11)"
+      - ['(9|10|11)', 'There should be 10 rows in the triangle.']
       - "document.write"
+      - '<br>'
+
+functionality:
+  - path: 'index.html'
+    setup: |
+      window.prompt = function () {
+        return 'a';
+      }
+    tests:
+      - |
+        let content = document.body.textContent.trim().replace(/[\s\r\n\t]/g, '');
+
+        if (content.length !== 55) fail(`There are ${content.length} letters written out to the page but there should be 55`);
+        pass();
